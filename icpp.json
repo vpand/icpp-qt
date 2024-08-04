@@ -1,0 +1,9 @@
+{
+  "name": "qt",
+  "headers": [],
+  "header-dirs": [],
+  "sources": ["icpp/main.cc"],
+  "binary-objs": [],
+  "binary-libs": [],
+  "include-dirs": []
+}
