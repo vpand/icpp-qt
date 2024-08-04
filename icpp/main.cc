@@ -7,7 +7,7 @@
 /*
 This is an icpp module main entry to run the qt related script, usage:
 1.install this module:
-  imod --install=icpp-qt.icpp
+  imod --install=qt-*-*.icpp
 2.run qt related script with the qt module:
   icpp qt helloworld.cc
 */

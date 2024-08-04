@@ -1,6 +1,8 @@
-#include <icpp/qt/QMessageBox.h>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
 
-int main(int argc, const char *argv[]) {
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
   QMessageBox::information(nullptr, "icpp-qt", "Hello world.");
-  return 0;
+  return app.exec();
 }

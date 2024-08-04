@@ -45,15 +45,15 @@ cmake --install .
 ```
 
 ## Pack
-Pack an icpp module:
+Pack an icpp module(e.g.: qt-osx.json):
 ```sh
-imod --create=./icpp.json
+imod --create=./icpp-x.json
 ```
 
 ## Install
 Install the icpp-qt module(e.g.: qt-osx-arm64.icpp):
 ```sh
-imod --install=./qt-*-*.icpp
+imod --install=./qt-x-x.icpp
 ```
 
 ## Test
