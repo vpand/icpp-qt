@@ -33,5 +33,6 @@
 
 *.io
 *.icpp
+*.moc.cc
 module/
 build/

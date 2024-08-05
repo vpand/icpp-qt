@@ -57,9 +57,11 @@ imod --install=./qt-x-x.icpp
 ```
 
 ## Test
+Don't miss the "--", it's important to make the qt related script running correctly. The following command arguments mean: run the qt module with the script file argument. The script will be running under the control of the qt module.
+
 Run a qt related icpp script:
 ```sh
-icpp qt test/helloworld.cc
+icpp qt -- test/helloworld.cc
 ```
 
 ## Reference

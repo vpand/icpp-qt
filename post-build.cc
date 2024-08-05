@@ -39,12 +39,15 @@ void rpath_reset(std::string_view file) {
 }
 #endif
 
-void strip(std::string_view file) {
-#if __APPLE__
-  rpath_reset(file);
-#endif
+void strip(std::string_view thisdir, std::string_view file) {
   icpp::prints("Stripped {}.\n", file);
   icppex::command("strip", {"-x", file.data()});
+#if __APPLE__
+  rpath_reset(file);
+
+  icpp::prints("Codesigned {}.\n", file);
+  icppex::command("codesign", {"--force", "--sign", "-", file.data()});
+#endif
 }
 #endif
 
@@ -54,7 +57,7 @@ int main(int argc, const char *argv[]) {
 
 #if __UNIX__
   // strip moc
-  strip((installdir / "libexec/moc").string());
+  strip(thisdir.string(), (installdir / "libexec/moc").string());
 #endif
 #if __APPLE__
   // strip/list framework
@@ -64,7 +67,7 @@ int main(int argc, const char *argv[]) {
       auto dir = entry.path();
       if (dir.string().ends_with(".framework")) {
         frameworks.push_back(dir.stem().string());
-        strip((dir / dir.stem()).string());
+        strip(thisdir.string(), (dir / dir.stem()).string());
       }
     }
   }
@@ -72,7 +75,7 @@ int main(int argc, const char *argv[]) {
     auto path = entry.path().string();
     if (path.ends_with(".dylib")) {
       plugins.push_back(icpp::split(path, "plugins/")[1]);
-      strip(path);
+      strip(thisdir.string(), path);
     }
   }
   auto hdrs = ""s, libs = ""s, plugs = ""s;
