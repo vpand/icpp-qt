@@ -16,6 +16,6 @@ int main(int argc, char *argv[]) {
   HelloICPP slot, signal;
   slot.connect(&signal, SIGNAL(sayHello()), SLOT(hello()));
   emit signal.sayHello();
-  
-  return app.exec();
+
+  return 0;
 }
