@@ -71,7 +71,7 @@ Run a qt related icpp script:
 ```sh
 icpp qt -- test/helloworld.cc
 ```
-![helloworld]((https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld.png))
+![helloworld](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld.png)
 
 ## Reference
  * [Building Qt6 from Git](https://wiki.qt.io/Building_Qt_6_from_Git)
