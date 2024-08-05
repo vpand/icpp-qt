@@ -16,50 +16,72 @@ This is an icpp module main entry to run the qt related script, usage:
 #include <icpp.hpp>
 #include <icppex.hpp>
 
-constexpr bool logging = true;
+constexpr bool logging = false;
 
 #define log(format, ...)                                                       \
   if (logging) {                                                               \
     icpp::prints(format, __VA_ARGS__);                                         \
   }
 
+#if __WIN__
+#define EXE_EXT ".exe"
+#else
+#define EXE_EXT ""
+#endif
+
 int main(int argc, const char *argv[]) {
   if (argc == 1) {
-    icpp::prints("Qt Module usage: icpp qt -- /path/to/source.cc [argv...]\n");
+    icpp::prints("Module Qt6(v1.0.0) usage: icpp qt -- script.cc [argv...]\n");
     return -1;
   }
-  std::string_view srcfile{argv[1]};
 
-  auto qtbin = std::string(icpp::home_directory()) + "/.icpp/bin/qt";
-  auto moc = qtbin + "/moc";
-#if __WIN__
-  moc += ".exe";
-#endif
+  // source
+  std::string_view srcfile{argv[1]};
   auto srcname = fs::path(srcfile).stem().string();
+  // header
   auto hdrfile =
       (fs::path(srcfile).parent_path() / std::format("{}.h", srcname)).string();
+  // source.moc
   auto mocfile =
       (fs::path(srcfile).parent_path() / std::format("{}.moc.cc", srcname))
           .string();
+  auto hasmoc = false, updated = true;
   if (fs::exists(hdrfile)) {
-    log("Generating moc source: {}\n", mocfile);
-    fs::remove(mocfile);
-    auto mocouts = icppex::execute(moc, {"-o", mocfile.data(), hdrfile.data()});
-    if (!fs::exists(mocfile)) {
-      std::puts(mocouts.data());
-      return -2;
+    if ((hasmoc = fs::exists(mocfile))) {
+      // update check
+      auto moctm = fs::last_write_time(mocfile);
+      if (moctm > fs::last_write_time(srcfile) &&
+          moctm > fs::last_write_time(hdrfile)) {
+        log("{}\n", "Using the old moc source, no need to update.");
+        updated = false;
+      }
+    }
+    if (updated) {
+      log("Generating moc source: {}\n", mocfile);
+      auto moc =
+          std::string(icpp::home_directory()) + "/.icpp/bin/qt/moc" EXE_EXT;
+      fs::remove(mocfile);
+      auto mocouts =
+          icppex::execute(moc, {"-o", mocfile.data(), hdrfile.data()});
+      if (!(hasmoc = fs::exists(mocfile))) {
+        std::puts(mocouts.data());
+        return -2;
+      }
+      // include the original source into this newly created moc source
+      std::fstream mocfs(mocfile, std::ios::in | std::ios::out | std::ios::ate);
+      auto incsrc = std::format("\n#include \"{}\"\n",
+                                fs::path(srcfile).filename().string());
+      mocfs.write(incsrc.data(), incsrc.size());
     }
   }
 
-  auto qtlib = std::string(icpp::home_directory()) + "/.icpp/lib/qt";
-  log("Set Qt library path: {}\n", qtlib);
-  QApplication::addLibraryPath(qtlib.data());
-
-  if (fs::exists(mocfile)) {
-    log("Executing moc source: {}\n", mocfile);
-    icpp::exec_source(mocfile);
+  int targc = argc - 1;
+  auto targv = &argv[1];
+  if (hasmoc) {
+    log("Executing user.moc source: {}\n", mocfile);
+    return icpp::exec_source(mocfile, targc, targv);
   }
 
   log("Executing user source: {}\n", srcfile);
-  return icpp::exec_source(srcfile, argc - 1, &argv[1]);
+  return icpp::exec_source(srcfile, targc, targv);
 }

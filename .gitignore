@@ -36,3 +36,4 @@
 *.moc.cc
 module/
 build/
+.vscode/

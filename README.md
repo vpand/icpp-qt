@@ -26,8 +26,16 @@ Set the current working directory as ICPP-QT/build:
 cd ..
 ```
 
-### Unix
-Building on unix-like system:
+### macOS
+Building on macOS:
+```sh
+./qt6/configure -no-framework -prefix $PWD/install
+cmake --build . --parallel 8
+cmake --install .
+```
+
+### Linux
+Building on linux:
 ```sh
 ./qt6/configure -prefix $PWD/install
 cmake --build . --parallel 8
@@ -63,6 +71,7 @@ Run a qt related icpp script:
 ```sh
 icpp qt -- test/helloworld.cc
 ```
+![helloworld]((https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld.png))
 
 ## Reference
  * [Building Qt6 from Git](https://wiki.qt.io/Building_Qt_6_from_Git)

@@ -12,27 +12,27 @@ i.e: strip binaries, generate include/library list, etc.
 #include <icpp.hpp>
 #include <icppex.hpp>
 
+#define QTVERSION "6"
+
+#if __APPLE__
+#define SHLIB_EXT ".dylib"
+#elif __WIN__
+#define SHLIB_EXT ".dll"
+#else
+#define SHLIB_EXT ".so"
+#endif
+
 #if __UNIX__
 #if __APPLE__
+
 void rpath_reset(std::string_view file) {
+  if (file.find(QTVERSION SHLIB_EXT) != std::string_view::npos)
+    return;
+
   std::vector<std::string> args;
   args.push_back("-rpath");
-  args.push_back(file.find(".framework") != std::string_view::npos
-                     ? "@loader_path/../../../"
-                     : "@loader_path/../../lib");
-  args.push_back("@loader_path/");
-  for (auto &line : icppex::command2("otool", {"-l", file.data()})) {
-    // name @rpath/QtWidgets.framework/Versions/A/QtWidgets
-    auto parts = icpp::split(line, " @rpath/");
-    if (parts.size() == 2) {
-      if (line.find('.') == std::string::npos)
-        continue;
-      auto name = icpp::split(parts[1], ".")[0];
-      args.push_back("-change");
-      args.push_back(std::format("@rpath/{0}.framework/Versions/A/{0}", name));
-      args.push_back(std::format("@rpath/{}", name));
-    }
-  }
+  args.push_back("@loader_path/../../lib");
+  args.push_back("@loader_path");
   args.push_back(file.data());
   icpp::prints("Reset rpath {}.\n", file);
   icppex::command("install_name_tool", args);
@@ -58,34 +58,30 @@ int main(int argc, const char *argv[]) {
 #if __UNIX__
   // strip moc
   strip(thisdir.string(), (installdir / "libexec/moc").string());
-#endif
-#if __APPLE__
-  // strip/list framework
-  std::vector<std::string> frameworks, plugins;
+
+  // strip/list libs
+  std::vector<std::string> qtlibs, plugins;
   for (auto &entry : fs::directory_iterator(installdir / "lib")) {
-    if (entry.is_directory()) {
-      auto dir = entry.path();
-      if (dir.string().ends_with(".framework")) {
-        frameworks.push_back(dir.stem().string());
-        strip(thisdir.string(), (dir / dir.stem()).string());
-      }
+    auto path = entry.path().string();
+    if (path.ends_with(QTVERSION SHLIB_EXT)) {
+      qtlibs.push_back(icpp::split(path, "lib/")[1]);
+      strip(thisdir.string(), path);
     }
   }
   for (auto &entry : fs::recursive_directory_iterator(installdir / "plugins")) {
     auto path = entry.path().string();
-    if (path.ends_with(".dylib")) {
+    if (path.ends_with(SHLIB_EXT)) {
       plugins.push_back(icpp::split(path, "plugins/")[1]);
       strip(thisdir.string(), path);
     }
   }
-  auto hdrs = ""s, libs = ""s, plugs = ""s;
-  for (auto &f : frameworks) {
-    hdrs += std::format("    \"build/install/lib/{}.framework/Headers\",\n", f);
-    libs += std::format("    \"build/install/lib/{}.framework/{}\",\n", f, f);
-  }
+  auto libs = ""s, plugs = ""s;
+  for (auto &l : qtlibs)
+    libs += std::format("    \"build/install/lib/{}\",\n", l);
   for (auto &p : plugins)
     plugs += std::format("    \"build/install/plugins/{}\",\n", p);
-  icpp::prints("header-dirs:\n{}\nbinary-libs:\n{}\n{}\n", hdrs, libs, plugs);
+
+  icpp::prints("binary-libs:\n{}\n{}\n", libs, plugs);
 #endif
   return 0;
 }
