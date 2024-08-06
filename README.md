@@ -87,7 +87,8 @@ Run a qt related icpp script:
 ```sh
 icpp qt -- test/helloworld.cc
 ```
-![helloworld](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld.png)
+![helloworld-win](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld-win.png)
+![helloworld-mac](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld-mac.png)
 ![helloworld-linux](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld-linux.png)
 
 ## Reference
