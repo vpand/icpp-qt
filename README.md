@@ -1,8 +1,13 @@
-# icpp-qt - Writing GUI script with C++
+# ICPP-Qt - Writing GUI script with C++
 An [icpp](https://github.com/vpand/icpp) module of the cross-platform GUI toolkit Qt.
  * Writing GUI script with C++ becomes so easy;
  * Supporting macOS/Linux/Windows;
  * Packed with Qt6.9.0;
+
+```sh
+C:\vpand>icpp qt
+Module Qt6(v1.0.0) usage: icpp qt -- script.cc [argv...]
+```
 
 **Follow the one-by-one step to build your own version of icpp-qt module.**
 
@@ -93,3 +98,6 @@ icpp qt -- test/helloworld.cc
 
 ## Reference
  * [Building Qt6 from Git](https://wiki.qt.io/Building_Qt_6_from_Git)
+
+## Issue
+If you encounter any problems when using icpp, before opening an issue, please check the [Bug Report](https://github.com/vpand/icpp/blob/main/.github/ISSUE_TEMPLATE/bug_report.md) template, and provide as many details as you can. Only if we can reproduce the problem, we can then solve it.
