@@ -1,5 +1,10 @@
-# icpp-qt
+# icpp-qt - Writing GUI script with C++
 An icpp module of the cross-platform GUI toolkit Qt.
+ * Writing GUI script with C++ becomes so easy;
+ * Supporting macOS/Linux/Windows;
+ * Packed with Qt6.9.0;
+
+**Follow the one-by-one step to build your own version of icpp-qt module.**
 
 ## Clone
 Clone the qt main repository:
@@ -37,9 +42,20 @@ cmake --install .
 ### Linux
 Building on linux:
 ```sh
-./qt6/configure -prefix $PWD/install
+sudo apt-get install libx11-*
+sudo apt-get install libx11*
+sudo apt-get install libxcb-*
+sudo apt-get install libxcb*
+sudo apt-get install libxkbcommon-dev
+sudo apt-get install libxkbcommon-x11-dev
+./qt6/configure -xcb -prefix $PWD/install
 cmake --build . --parallel 8
 cmake --install .
+```
+Linking the fonts:
+```sh
+# build/install/lib
+ln -s ../../../fonts .
 ```
 
 ### Windows

@@ -77,6 +77,13 @@ int main(int argc, const char *argv[]) {
 
   int targc = argc - 1;
   auto targv = &argv[1];
+  auto platform =
+      std::string(icpp::home_directory()) + "/.icpp/lib/qt/plugins/platforms";
+#if __UNIX__
+  setenv("QT_QPA_PLATFORM_PLUGIN_PATH", platform.data(), true);
+#else
+  SetEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH", platform.data());
+#endif
   if (hasmoc) {
     log("Executing user.moc source: {}\n", mocfile);
     return icpp::exec_source(mocfile, targc, targv);
