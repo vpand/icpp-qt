@@ -88,6 +88,7 @@ Run a qt related icpp script:
 icpp qt -- test/helloworld.cc
 ```
 ![helloworld](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld.png)
+![helloworld-linux](https://raw.githubusercontent.com/vpand/icpp-qt/main/image/helloworld-linux.png)
 
 ## Reference
  * [Building Qt6 from Git](https://wiki.qt.io/Building_Qt_6_from_Git)
