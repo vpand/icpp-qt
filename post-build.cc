@@ -69,7 +69,32 @@ int main(int argc, const char *argv[]) {
   for (auto &p : plugins)
     plugs += std::format("    \"build/install/plugins/{}\",\n", p);
 
-  icpp::prints("binary-libs:\n{}\n{}\n", libs, plugs);
+#else
+  // list libs
+  std::vector<std::string> qtlibs, plugins;
+  for (auto &entry : fs::directory_iterator(installdir / "bin")) {
+    auto path = entry.path().string();
+    if (path.ends_with(SHLIB_EXT)) {
+      qtlibs.push_back(icpp::split(path, "bin\\")[1]);
+    }
+  }
+  for (auto &entry : fs::recursive_directory_iterator(installdir / "plugins")) {
+    auto path = entry.path().string();
+    if (path.ends_with(SHLIB_EXT)) {
+      auto &item = plugins.emplace_back(icpp::split(path, "plugins\\")[1]);
+      for (auto ptr = const_cast<char *>(item.data()); *ptr; ptr++) {
+        if (*ptr == '\\')
+          *ptr = '/';
+      }
+    }
+  }
+  auto libs = ""s, plugs = ""s;
+  for (auto &l : qtlibs)
+    libs += std::format("    \"build/install/bin/{}\",\n", l);
+  for (auto &p : plugins)
+    plugs += std::format("    \"build/install/plugins/{}\",\n", p);
+
 #endif
+  icpp::prints("binary-libs:\n{}\n{}\n", libs, plugs);
   return 0;
 }

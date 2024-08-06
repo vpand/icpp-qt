@@ -1,5 +1,5 @@
 # icpp-qt - Writing GUI script with C++
-An icpp module of the cross-platform GUI toolkit Qt.
+An [icpp](https://github.com/vpand/icpp) module of the cross-platform GUI toolkit Qt.
  * Writing GUI script with C++ becomes so easy;
  * Supporting macOS/Linux/Windows;
  * Packed with Qt6.9.0;
