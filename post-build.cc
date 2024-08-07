@@ -31,7 +31,7 @@ i.e: strip binaries, generate include/library list, etc.
 
 void strip(std::string_view thisdir, std::string_view file) {
   icpp::prints("Stripped {}.\n", file);
-  icppex::command("strip", {"-x", file.data()});
+  icppex::execute("/usr/bin/strip", {"-x", file.data()});
 #if __APPLE__
   icpp::prints("Codesigned {}.\n", file);
   icppex::command("codesign", {"--force", "--sign", "-", file.data()});
@@ -45,7 +45,10 @@ int main(int argc, const char *argv[]) {
 
 #if __UNIX__
   // strip moc
-  strip(thisdir.string(), (installdir / "libexec/moc").string());
+  if (fs::exists(installdir / "libexec/moc"))
+    strip(thisdir.string(), (installdir / "libexec/moc").string());
+  else if (fs::exists(installdir / "bin/moc"))
+    strip(thisdir.string(), (installdir / "bin/moc").string());
 
   // strip/list libs
   std::vector<std::string> qtlibs, plugins;

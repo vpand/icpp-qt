@@ -2,7 +2,7 @@
 An [icpp](https://github.com/vpand/icpp) module of the cross-platform GUI toolkit Qt.
  * Writing GUI script with C++ becomes so easy;
  * Supporting macOS/Linux/Windows;
- * Packed with Qt6.9.0 (6.0.4 for Intel macOS);
+ * Packed with Qt6.9.0 (6.0.4 for Intel macOS/Linux);
 
 ```sh
 C:\vpand>icpp qt
@@ -15,18 +15,26 @@ Module Qt6(v1.0.0) usage: icpp qt -- script.cc [argv...]
 Clone the qt main repository:
 ```sh
 mkdir build
-git clone --depth=1 https://code.qt.io/qt/qt5.git build/qt6
+git clone https://code.qt.io/qt/qt5.git build/qt6
 cd build/qt6
 ```
 
 Clone the submodule repositories:
 ### Unix
+ARM Chip on macOS/Linux:
 ```sh
+git switch 6.9
 perl init-repository --module-subset=qtbase,qtshadertools,qtdeclarative,qthttpserver
+```
+Intel Chip on macOS/Linux:
+```sh
+git switch 6.0
+perl init-repository --module-subset=qtbase,qtshadertools,qtsvg,qtdeclarative
 ```
 
 ### Windows
 ```sh
+git switch 6.9
 .\init-repository.bat --module-subset=qtbase,qtshadertools,qtdeclarative,qthttpserver
 ```
 
@@ -53,6 +61,7 @@ sudo apt-get install libxcb-*
 sudo apt-get install libxcb*
 sudo apt-get install libxkbcommon-dev
 sudo apt-get install libxkbcommon-x11-dev
+sudo apt-get install libgl-dev libegl-dev libfontconfig1-dev libinput-dev
 ./qt6/configure -xcb -prefix $PWD/install
 cmake --build . --parallel 8
 cmake --install .
@@ -71,6 +80,12 @@ Building on windows:
 .\qt6\configure.bat -prefix %cd%/install
 cmake --build .
 cmake --install .
+```
+
+## Post Build
+If you switched to another qt version, you should copy the exist icpp module configuration qt-*.json to a new file, and modify the binary-libs list which can be generated as follows:
+```sh
+icpp post-build.cc
 ```
 
 ## Pack
