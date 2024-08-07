@@ -2,7 +2,7 @@
 An [icpp](https://github.com/vpand/icpp) module of the cross-platform GUI toolkit Qt.
  * Writing GUI script with C++ becomes so easy;
  * Supporting macOS/Linux/Windows;
- * Packed with Qt6.9.0;
+ * Packed with Qt6.9.0 (6.0.4 for Intel macOS);
 
 ```sh
 C:\vpand>icpp qt

@@ -1,0 +1,65 @@
+{
+  "name": "qt",
+  "headers": [],
+  "header-dirs": [
+    "build/install/include"
+  ],
+  "sources": [
+    "icpp/main.cc"
+  ],
+  "binary-objs": [],
+  "binary-bins": [
+    "build/install/bin/moc"
+  ],
+  "binary-libs": [
+    "build/install/lib/libQt6QmlWorkerScript.6.dylib",
+    "build/install/lib/libQt6DBus.6.dylib",
+    "build/install/lib/libQt6PrintSupport.6.dylib",
+    "build/install/lib/libQt6Svg.6.dylib",
+    "build/install/lib/libQt6QuickShapes.6.dylib",
+    "build/install/lib/libQt6Network.6.dylib",
+    "build/install/lib/libQt6Qml.6.dylib",
+    "build/install/lib/libQt6Sql.6.dylib",
+    "build/install/lib/libQt6Core.6.dylib",
+    "build/install/lib/libQt6QuickParticles.6.dylib",
+    "build/install/lib/libQt6Gui.6.dylib",
+    "build/install/lib/libQt6Test.6.dylib",
+    "build/install/lib/libQt6OpenGL.6.dylib",
+    "build/install/lib/libQt6Xml.6.dylib",
+    "build/install/lib/libQt6SvgWidgets.6.dylib",
+    "build/install/lib/libQt6Concurrent.6.dylib",
+    "build/install/lib/libQt6Widgets.6.dylib",
+    "build/install/lib/libQt6QuickTest.6.dylib",
+    "build/install/lib/libQt6ShaderTools.6.dylib",
+    "build/install/lib/libQt6Quick.6.dylib",
+    "build/install/lib/libQt6QmlModels.6.dylib",
+    "build/install/lib/libQt6OpenGLWidgets.6.dylib",
+    "build/install/lib/libQt6QuickWidgets.6.dylib",
+    "build/install/plugins/platforms/libqoffscreen.dylib",
+    "build/install/plugins/platforms/libqminimal.dylib",
+    "build/install/plugins/platforms/libqcocoa.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_messages.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_inspector.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_quickprofiler.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_tcp.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_profiler.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_preview.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_nativedebugger.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_local.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_server.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_native.dylib",
+    "build/install/plugins/qmltooling/libqmldbg_debugger.dylib",
+    "build/install/plugins/styles/libqmacstyle.dylib",
+    "build/install/plugins/iconengines/libqsvgicon.dylib",
+    "build/install/plugins/sqldrivers/libqsqlite.dylib",
+    "build/install/plugins/imageformats/libqgif.dylib",
+    "build/install/plugins/imageformats/libqico.dylib",
+    "build/install/plugins/imageformats/libqjpeg.dylib",
+    "build/install/plugins/imageformats/libqsvg.dylib",
+    "build/install/plugins/generic/libqtuiotouchplugin.dylib"
+  ],
+  "include-dirs": [
+    "build/install/include"
+  ],
+  "install-prefix": "build/install"
+}
